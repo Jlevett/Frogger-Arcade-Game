@@ -44,9 +44,18 @@ var Engine = (function(global) {
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
          */
-        update(dt);
-        render();
-
+        if(!pauseMode){
+            update(dt);
+            render();
+        }else{  
+            ctx.font = '90pt Impact';
+            ctx.textAlign = 'center';
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = 5;
+            ctx.fillStyle = 'red';
+            ctx.fillText("Paused",canvas.width/2,canvas.height/2);
+            ctx.strokeText("Paused", canvas.width/2, canvas.height/2);
+        }
         /* Set our lastTime variable which is used to determine the time delta
          * for the next time this function is called.
          */
@@ -90,10 +99,10 @@ var Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
-         // allEnemies.forEach(function(enemy) {
-         //     enemy.update(dt);
-         // });
-        // player.update();
+          allEnemies.forEach(function(enemy) {
+              enemy.update(dt);
+          });
+         player.update();
     }
 
     /* This function initially draws the "game level", it will then call
@@ -153,10 +162,7 @@ var Engine = (function(global) {
              enemy.render();
          }
         );
-
-
-        // player.render();
-      //  ctx.drawImage(Resources.get('images/char-boy.png'), 2, 2); //TEST
+        player.render();
     }
 
     /* This function does nothing but it could have been a good place to
